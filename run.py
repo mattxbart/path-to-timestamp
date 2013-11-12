@@ -13,11 +13,11 @@ def make_tuple(time_dirs):
             return []
     return tuple(parts)
 
-def make_time(f, formats=["%m%d%y", "%m%d%Y"]):
+def make_time(f, formats=[("%m%d%Y", 8), ("%m%d%y", 6)]):
 
-    for format in formats:
+    for format, l in formats:
         try:
-            return time.mktime(time.strptime(f[:len(format)], format))
+            return time.mktime(time.strptime(f[:l], format))
         except ValueError:
             continue
         
