@@ -13,14 +13,22 @@ def make_tuple(time_dirs):
             return []
     return tuple(parts)
 
+def make_time(f, formats=["%m%d%y", "%m%d%Y"]):
+
+    for format in formats:
+        try:
+            return time.mktime(time.strptime(f[:len(format)], format))
+        except ValueError:
+            continue
+        
+
 def run(path):
 
     for base, dirs, files in os.walk(path):
-        time_dirs = base.split(os.sep)[-3:]
-        time_tuple = make_tuple(time_dirs)
-        if time_tuple:
-            struct = time.mktime(make_tuple(time_dirs) + (0, 0, 0, 0, 0, 0))
-            for f in files:
+        for f in files:
+            struct = make_time(f)
+            if struct:
+                print struct
                 os.utime(os.path.join(base, f), (struct, struct,))
                 print os.path.join(base, f), struct
 
