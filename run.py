@@ -29,5 +29,5 @@ def run(path):
 
 
 if __name__ == "__main__":
-
-    run("/tmp/2012")
+    
+    run(sys.argv[1])
